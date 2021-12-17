@@ -14,10 +14,6 @@ export default function Topbar() {
         </div>
       </div>
       <div className="navRight">
-        <div className="navLinks">
-          <span className="navLink">Homepage</span>
-          <span className="navLink">Timeline</span>
-        </div>
         <div className="navIcons">
           <div className="navIconItem">
             <Person />

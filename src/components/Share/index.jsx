@@ -7,7 +7,7 @@ export default function Share() {
       <div className="shareWrapper">
         <div className="shareTop">
           <img
-            src="https://i.pinimg.com/originals/22/92/22/229222a9c57e6a8dcd25a9f3b95c62d2.png"
+            src="https://i.pinimg.com/originals/ed/64/55/ed6455552d33668a6b88185933f670f1.jpg"
             alt="pfp"
           />
           <input placeholder="What's in your mind?" />

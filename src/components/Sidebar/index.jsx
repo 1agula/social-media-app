@@ -62,7 +62,7 @@ export default function Sidebar() {
               src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
               alt="friendpfp"
             />
-            <span className="sidebarFriendName">Big Gay</span>
+            <span className="sidebarName">Big Gay</span>
           </li>
           <li className="sidebarFriend">
             <img
@@ -70,7 +70,7 @@ export default function Sidebar() {
               src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
               alt="friendpfp"
             />
-            <span className="sidebarFriendName">Big Gay</span>
+            <span className="sidebarName">Big Gay</span>
           </li>
           <li className="sidebarFriend">
             <img
@@ -78,7 +78,7 @@ export default function Sidebar() {
               src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
               alt="friendpfp"
             />
-            <span className="sidebarFriendName">Big Gay</span>
+            <span className="sidebarName">Big Gay</span>
           </li>
           <li className="sidebarFriend">
             <img
@@ -86,7 +86,7 @@ export default function Sidebar() {
               src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
               alt="friendpfp"
             />
-            <span className="sidebarFriendName">Big Gay</span>
+            <span className="sidebarName">Big Gay</span>
           </li>
           <li className="sidebarFriend">
             <img
@@ -94,7 +94,7 @@ export default function Sidebar() {
               src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
               alt="friendpfp"
             />
-            <span className="sidebarFriendName">Big Gay</span>
+            <span className="sidebarName">Big Gay</span>
           </li>
           <li className="sidebarFriend">
             <img
@@ -102,7 +102,7 @@ export default function Sidebar() {
               src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
               alt="friendpfp"
             />
-            <span className="sidebarFriendName">Big Gay</span>
+            <span className="sidebarName">Big Gay</span>
           </li>
           <li className="sidebarFriend">
             <img
@@ -110,7 +110,7 @@ export default function Sidebar() {
               src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
               alt="friendpfp"
             />
-            <span className="sidebarFriendName">Big Gay</span>
+            <span className="sidebarName">Big Gay</span>
           </li>
         </ul>
       </div>

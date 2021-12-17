@@ -1,11 +1,10 @@
 .sidebar {
-  flex: 3;
+  flex: 2;
   height: calc(100vh - 50px);
   overflow: scroll;
   position: sticky;
-  top: 50px;
+  top: 70px;
   .sidebarWrapper {
-    padding: 20px;
     .sidebarList {
       padding: 0;
       margin: 0;
@@ -21,7 +20,7 @@
     }
   }
   .sidebarButton {
-    width: 150px;
+    width: 120px;
     border: none;
     padding: 10px;
     border-radius: 5px;
@@ -41,7 +40,10 @@
         height: 32px;
         border-radius: 50%;
         object-fit: cover;
-        margin-right: 10px;
+        margin-right: 5px;
+      }
+      .sidebarName {
+        font-weight: 400;
       }
     }
   }

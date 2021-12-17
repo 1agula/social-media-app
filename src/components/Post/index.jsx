@@ -1,6 +1,7 @@
 import "./index.scss";
-import { MoreVert, ThumbUp } from "@material-ui/icons";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import { MoreVert, Reply } from "@material-ui/icons";
+import RepeatIcon from "@material-ui/icons/Repeat";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 
 export default function Post() {
   return (
@@ -30,11 +31,13 @@ export default function Post() {
 
         <div className="postBottom">
           <div className="postBottomLeft">
-            <FavoriteIcon className="likeIcon" />
-            <ThumbUp className="likeIcon" />
-            <span className="likeCounter">32</span>
+            <RepeatIcon htmlColor="grey" className="rightIcon" />
+            <span className="rightCounter">5</span>
+            <ThumbUpAltIcon htmlColor="grey" className="rightIcon" />
+            <span className="rightCounter">32</span>
           </div>
           <div className="postBottomRight">
+            <Reply htmlColor="grey" className="commentIcon" />
             <span className="commentCounter">9 comments</span>
           </div>
         </div>
