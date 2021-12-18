@@ -4,7 +4,7 @@
   box-shadow: 0px 1px 16px -8px rgba(0, 0, 0, 0.69);
   -webkit-box-shadow: 0px 1px 16px -8px rgba(0, 0, 0, 0.69);
   -moz-box-shadow: 0px 1px 16px -8px rgba(0, 0, 0, 0.69);
-  margin: 10px 0;
+  margin: 8px 0;
   .postWrapper {
     padding: 10px;
     .postTop {
@@ -29,8 +29,6 @@
           font-size: 12px;
         }
       }
-      .postTopRight {
-      }
     }
     .postCenter {
       margin: 20px 0;
@@ -43,31 +41,30 @@
     }
     .postBottom {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
-      .postBottomLeft {
+
+      .iconContainer {
+        font-size: 14px;
         display: flex;
         align-items: center;
-        .rightIcon {
-          font-size: 24px;
-          cursor: pointer;
-          margin-right: 1px;
-        }
-        .rightCounter {
-          font-size: 15px;
-          margin-right: 8px;
-        }
-      }
-      .postBottomRight {
-        display: flex;
-        align-items: center;
+        color: gray;
         cursor: pointer;
-        .commentIcon {
-          font-size: 24px;
-          margin-right: 1px;
+        &:nth-child(3):hover {
+          color: crimson;
         }
-        .commentCounter {
-          font-size: 15px;
+        &:nth-child(1):hover {
+          color: cornflowerblue;
+        }
+        &:nth-child(2):hover {
+          color: limegreen;
+        }
+        &:nth-child(4):hover {
+          color: cornflowerblue;
+        }
+        .icon {
+          font-size: 20px;
+          margin-right: 3px;
         }
       }
     }

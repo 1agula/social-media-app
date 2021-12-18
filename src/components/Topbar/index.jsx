@@ -5,7 +5,7 @@ export default function Topbar() {
   return (
     <nav>
       <div className="navLeft">
-        <span className="logo">уул.</span>
+        <span className="logo">Bocchi Social</span>
       </div>
       <div className="navCenter">
         <div className="searchBar">
@@ -28,10 +28,6 @@ export default function Topbar() {
             <span className="badge">1</span>
           </div>
         </div>
-        <img
-          src="https://i.pinimg.com/originals/ed/64/55/ed6455552d33668a6b88185933f670f1.jpg"
-          alt="pfp"
-        />
       </div>
     </nav>
   );

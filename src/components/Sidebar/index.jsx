@@ -1,32 +1,26 @@
 import "./index.scss";
 import {
-  RssFeed,
+  Home,
   Event,
   School,
   WorkOutline,
-  HelpOutline,
   Bookmark,
   Chat,
-  VideoLabel,
   Group,
 } from "@material-ui/icons";
 
-export default function Sidebar() {
+export default function Sidebar(props) {
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
         <ul className="sidebarList">
           <li className="sidebarListItem">
-            <RssFeed className="sidebarIcon" />
-            <span className="sidebarListItemText">Feed</span>
+            <Home className="sidebarIcon" />
+            <span className="sidebarListItemText">Home</span>
           </li>
           <li className="sidebarListItem">
             <Chat className="sidebarIcon" />
             <span className="sidebarListItemText">Chats</span>
-          </li>
-          <li className="sidebarListItem">
-            <VideoLabel className="sidebarIcon" />
-            <span className="sidebarListItemText">Videos</span>
           </li>
           <li className="sidebarListItem">
             <Group className="sidebarIcon" />
@@ -34,11 +28,7 @@ export default function Sidebar() {
           </li>
           <li className="sidebarListItem">
             <Bookmark className="sidebarIcon" />
-            <span className="sidebarListItemText">Bookmark</span>
-          </li>
-          <li className="sidebarListItem">
-            <HelpOutline className="sidebarIcon" />
-            <span className="sidebarListItemText">Questions</span>
+            <span className="sidebarListItemText">Bookmarks</span>
           </li>
           <li className="sidebarListItem">
             <WorkOutline className="sidebarIcon" />
@@ -56,62 +46,18 @@ export default function Sidebar() {
         <button className="sidebarButton">Show More</button>
         <hr className="sidebarHr" />
         <ul className="sidebarFriendList">
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
-              alt="friendpfp"
-            />
-            <span className="sidebarName">Big Gay</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
-              alt="friendpfp"
-            />
-            <span className="sidebarName">Big Gay</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
-              alt="friendpfp"
-            />
-            <span className="sidebarName">Big Gay</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
-              alt="friendpfp"
-            />
-            <span className="sidebarName">Big Gay</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
-              alt="friendpfp"
-            />
-            <span className="sidebarName">Big Gay</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
-              alt="friendpfp"
-            />
-            <span className="sidebarName">Big Gay</span>
-          </li>
-          <li className="sidebarFriend">
-            <img
-              className="sidebarFriendImg"
-              src="https://i.pinimg.com/736x/fc/13/e3/fc13e3d41ea79b82f9c8199e85ef3f3a--icons.jpg"
-              alt="friendpfp"
-            />
-            <span className="sidebarName">Big Gay</span>
-          </li>
+          {props.users.map((user) => {
+            return (
+              <li key={user.id} className="sidebarFriend">
+                <img
+                  className="sidebarFriendImg"
+                  src={user.profilePicture}
+                  alt="friendpfp"
+                />
+                <span className="sidebarName">{user.username}</span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

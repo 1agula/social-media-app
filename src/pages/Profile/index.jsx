@@ -1,19 +1,16 @@
 import Topbar from "../../components/Topbar";
 import Sidebar from "../../components/Sidebar";
-import Rightbar from "../../components/Rightbar";
-import Feed from "../../components/Feed";
 import "./index.scss";
 import { Users } from "../../dummyData";
 
-export default function Home() {
+export default function Profile() {
   return (
     <>
       <Topbar />
       <div className="bodyContainer">
-        <div className="homeContainer">
+        <div className="profileContainer">
           <Sidebar users={Users} />
-          <Feed />
-          <Rightbar users={Users} />
+          <div className="profileRight"></div>
         </div>
       </div>
     </>

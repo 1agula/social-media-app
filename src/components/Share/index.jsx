@@ -6,10 +6,7 @@ export default function Share() {
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
-          <img
-            src="https://i.pinimg.com/originals/ed/64/55/ed6455552d33668a6b88185933f670f1.jpg"
-            alt="pfp"
-          />
+          <img src="assets/person/1.jpg" alt="pfp" />
           <input placeholder="What's in your mind?" />
         </div>
         <hr className="shareHr" />
@@ -20,15 +17,15 @@ export default function Share() {
               <span className="shareOptionText">Image</span>
             </div>
             <div className="shareOption">
-              <Label htmlColor="blue" className="shareIcon" />
+              <Label htmlColor="steelblue" className="shareIcon" />
               <span className="shareOptionText">Tag</span>
             </div>
             <div className="shareOption">
-              <Room htmlColor="green" className="shareIcon" />
+              <Room htmlColor="yellowgreen" className="shareIcon" />
               <span className="shareOptionText">Location</span>
             </div>
             <div className="shareOption">
-              <EmojiEmotions htmlColor="goldenrod" className="shareIcon" />
+              <EmojiEmotions htmlColor="orange" className="shareIcon" />
               <span className="shareOptionText">Feelings</span>
             </div>
           </div>
