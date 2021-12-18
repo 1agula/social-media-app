@@ -1,0 +1,40 @@
+.profile {
+  flex: 7;
+  padding: 0 20px;
+  .profileWrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 1px 16px -8px rgba(0, 0, 0, 0.69);
+    -webkit-box-shadow: 0px 1px 16px -8px rgba(0, 0, 0, 0.69);
+    -moz-box-shadow: 0px 1px 16px -8px rgba(0, 0, 0, 0.69);
+    .pfp {
+      position: absolute;
+      height: 120px;
+      width: 120px;
+      top: 130px;
+      left: calc(50% - 60px);
+      border-radius: 50%;
+      border: 3px solid white;
+    }
+    .topContainer {
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+    .bottomContainer {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      .username {
+        margin-top: 55px;
+        font-size: 24px;
+      }
+    }
+  }
+}

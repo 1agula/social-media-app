@@ -1,6 +1,7 @@
 import Topbar from "../../components/Topbar";
 import Sidebar from "../../components/Sidebar";
 import Rightbar from "../../components/Rightbar";
+import ProfilePage from "../../components/ProfilePage";
 import "./index.scss";
 import { Users } from "../../dummyData";
 
@@ -11,7 +12,7 @@ export default function Profile() {
       <div className="bodyContainer">
         <div className="profileContainer">
           <Sidebar users={Users} />
-          <div className="profileRight"></div>
+          <ProfilePage />
           <Rightbar users={Users} />
         </div>
       </div>
