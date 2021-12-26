@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 //register
 router.post("/register", async (req, res) => {
@@ -18,6 +19,7 @@ router.post("/register", async (req, res) => {
     const user = await newUser.save();
     res.status(200).json(user);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -30,9 +32,13 @@ router.post("/login", async (req, res) => {
     !user && res.status(404).json("user not found");
     //compare password
     const result = await bcrypt.compare(req.body.password, user.password);
-    result
-      ? res.status(200).json(user)
-      : res.status(403).json("wrong password");
+    if (result) {
+      const tokenObject = { _id: user._id, email: user.email };
+      const token = jwt.sign(tokenObject, process.env.PASSPORT_SECRET);
+      res.status(200).send({ success: true, token: "JWT " + token, user });
+    } else {
+      res.status(401).json("wrong password");
+    }
   } catch (err) {
     res.status(500).json(err);
   }
