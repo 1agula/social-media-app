@@ -1,11 +1,12 @@
 .profile {
   flex: 7;
   padding: 0 20px;
+
   .profileWrapper {
     display: flex;
     flex-direction: column;
     position: relative;
-    height: 400px;
+    height: 350px;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0px 1px 16px -8px rgba(0, 0, 0, 0.69);
@@ -13,14 +14,19 @@
     -moz-box-shadow: 0px 1px 16px -8px rgba(0, 0, 0, 0.69);
     .pfp {
       position: absolute;
-      height: 120px;
-      width: 120px;
-      top: 130px;
-      left: calc(50% - 60px);
+      height: 100px;
+      width: 100px;
+      top: 110px;
+      left: calc(50% - 50px);
       border-radius: 50%;
       border: 3px solid white;
+      object-fit: cover;
     }
     .topContainer {
+      img {
+        width: 100%;
+      }
+      width: 100%;
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -28,12 +34,13 @@
       flex: 1;
     }
     .bottomContainer {
+      width: 100%;
       flex: 1;
       display: flex;
       justify-content: center;
       .username {
-        margin-top: 55px;
-        font-size: 24px;
+        margin-top: 40px;
+        font-size: 20px;
       }
     }
   }

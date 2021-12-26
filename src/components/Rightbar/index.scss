@@ -5,16 +5,10 @@
   top: 70px;
   overflow: scroll;
   direction: rtl;
-
   .rightbarWrapper {
     direction: ltr;
-    .rightbarAd {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 30px;
-    }
     .rightbarTitle {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     .rightbarFriendList {
       list-style: none;

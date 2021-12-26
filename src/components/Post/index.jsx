@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import "./index.scss";
 import {
   MoreVert,
@@ -8,14 +9,35 @@ import {
   Repeat,
   Favorite,
 } from "@material-ui/icons";
+import { format } from "timeago.js";
+import UserService from "../../services/user.service";
+import PostService from "../../services/post.service";
+import { CurrentUserContext } from "../../App";
 
-export default function Post({ post, users }) {
-  const user = users.filter((user) => {
-    return user.id === post.userId;
-  })[0];
-  const [like, setLike] = useState(post.like);
-  const [isLiked, setIsLiked] = useState(false);
+export default function Post({ post }) {
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const [like, setLike] = useState(post.likes.length);
+  let result = post.likes.find((d) => {
+    return d === currentUser.user._id;
+  });
+  console.log(result);
+  const [isLiked, setIsLiked] = useState(
+    post.likes.find((d) => {
+      return d === currentUser.user._id;
+    })
+  );
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      UserService.getUser(post.userId).then((response) => {
+        setUser(response.data);
+      });
+    };
+    fetchUser();
+  }, [post.userId]);
   const likeHandler = () => {
+    PostService.likePost(post._id);
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked((previous) => {
       return !previous;
@@ -25,24 +47,27 @@ export default function Post({ post, users }) {
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
-          <div className="postTopLeft">
-            <img src={user.profilePicture} alt="pfp" />
+          <Link className="postTopLeft" to={`/profile/${user.username}`}>
+            <img
+              src={user.profilePicture || "/assets/person/noAvatar.jpg"}
+              alt=""
+            />
             <span className="postUserName">{user.username}</span>
-            <span className="postDate">{post.date}</span>
-          </div>
+            <span className="postDate">{format(post.createdAt)}</span>
+          </Link>
           <div className="postTopRight">
             <MoreVert />
           </div>
         </div>
         <div className="postCenter">
           <span className="postText">{post.desc}</span>
-          <img src={post.photo} alt="post" />
+          <img src={post.img} alt="" />
         </div>
 
         <div className="postBottom">
           <div className="iconContainer">
             <ChatBubbleOutline className="icon" />
-            <span>{post.comment}</span>
+            <span>3</span>
           </div>
           <div className="iconContainer">
             <Repeat className="icon" />

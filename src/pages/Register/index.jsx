@@ -1,7 +1,30 @@
-import React from "react";
+import { useRef } from "react";
 import "./index.scss";
+import { useNavigate } from "react-router-dom";
+import AuthService from "../../services/auth.service";
 
-export default function login() {
+export default function Register() {
+  const navigate = useNavigate();
+  const username = useRef();
+  const email = useRef();
+  const password = useRef();
+  const handleClick = () => {
+    AuthService.register(
+      username.current.value,
+      email.current.value,
+      password.current.value
+    )
+      .then(() => {
+        window.alert(
+          "Registration succeeds. You are now redirect to the login page."
+        );
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
   return (
     <div className="login">
       <div className="loginWrapper">
@@ -18,19 +41,31 @@ export default function login() {
             }}
             className="loginBox"
           >
-            <input placeholder="User Name" type="text" className="loginInput" />
-            <input placeholder="Email" type="Email" className="loginInput" />
             <input
+              ref={username}
+              required
+              placeholder="User Name"
+              type="text"
+              className="loginInput"
+            />
+            <input
+              ref={email}
+              required
+              placeholder="Email"
+              type="Email"
+              className="loginInput"
+            />
+            <input
+              ref={password}
+              required
+              minLength="6"
               placeholder="Password"
               type="Password"
               className="loginInput"
             />
-            <input
-              placeholder="Password"
-              type="Password"
-              className="loginInput"
-            />
-            <button className="loginButton">Sign Up</button>
+            <button onClick={handleClick} className="loginButton">
+              Sign Up
+            </button>
             <button className="loginRegisterButton">Log into Account</button>
           </form>
         </div>

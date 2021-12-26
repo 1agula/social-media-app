@@ -6,7 +6,7 @@ export default function Share() {
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
-          <img src="assets/person/1.jpg" alt="pfp" />
+          <img src="/assets/person/1.jpg" alt="pfp" />
           <input placeholder="What's in your mind?" />
         </div>
         <hr className="shareHr" />
@@ -23,10 +23,6 @@ export default function Share() {
             <div className="shareOption">
               <Room htmlColor="yellowgreen" className="shareIcon" />
               <span className="shareOptionText">Location</span>
-            </div>
-            <div className="shareOption">
-              <EmojiEmotions htmlColor="orange" className="shareIcon" />
-              <span className="shareOptionText">Feelings</span>
             </div>
           </div>
           <button>Share</button>

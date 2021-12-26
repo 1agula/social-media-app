@@ -13,39 +13,18 @@
         display: flex;
         align-items: center;
         margin-bottom: 20px;
+        cursor: pointer;
+        &:hover {
+          color: cornflowerblue;
+        }
         .sidebarIcon {
           margin-right: 15px;
         }
       }
     }
   }
-  .sidebarButton {
-    width: 120px;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: 700;
-  }
   .sidebarHr {
     margin: 20px 0;
-  }
-  .sidebarFriendList {
-    list-style: none;
-    .sidebarFriend {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-      img {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-right: 5px;
-      }
-      .sidebarName {
-        font-weight: 400;
-      }
-    }
   }
 }
 
