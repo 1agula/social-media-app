@@ -1,31 +1,34 @@
-import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./index.scss";
 import {
-  MoreVert,
-  FavoriteBorder,
-  Share,
-  ChatBubbleOutline,
-  Repeat,
-  Favorite,
-} from "@material-ui/icons";
+  MdMoreVert,
+  MdFavoriteBorder,
+  MdShare,
+  MdChatBubbleOutline,
+  MdRepeat,
+  MdFavorite,
+} from "react-icons/md";
 import { format } from "timeago.js";
 import UserService from "../../services/user.service";
 import PostService from "../../services/post.service";
 import { CurrentUserContext } from "../../App";
 
 export default function Post({ post }) {
+  const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [like, setLike] = useState(post.likes.length);
-  let result = post.likes.find((d) => {
-    return d === currentUser.user._id;
-  });
-  console.log(result);
   const [isLiked, setIsLiked] = useState(
     post.likes.find((d) => {
       return d === currentUser.user._id;
     })
   );
+  const [isActive, setIsActive] = useState({
+    more: false,
+    repost: false,
+    share: false,
+    comment: false,
+  });
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -36,6 +39,33 @@ export default function Post({ post }) {
     };
     fetchUser();
   }, [post.userId]);
+
+  const hideComment = useRef();
+  const hideCommentInput = useRef();
+  const hideMore = useRef();
+  const hideRepost = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        !hideCommentInput.current.contains(event.target) &&
+        !hideComment.current.contains(event.target) &&
+        !hideRepost.current.contains(event.target) &&
+        !hideMore.current.contains(event.target)
+      ) {
+        setIsActive({
+          more: false,
+          repost: false,
+          share: false,
+          comment: false,
+        });
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const likeHandler = () => {
     PostService.likePost(post._id);
     setLike(isLiked ? like - 1 : like + 1);
@@ -43,47 +73,200 @@ export default function Post({ post }) {
       return !previous;
     });
   };
+
+  const bookmarkHandler = () => {
+    try {
+      if (currentUser.user.bookmarks.includes(post._id)) {
+        PostService.bookmarkPost(post._id);
+        const newState = {
+          ...currentUser,
+          user: {
+            ...currentUser.user,
+            bookmarks: currentUser.user.bookmarks.filter(
+              (data) => data !== post._id
+            ),
+          },
+        };
+        localStorage.user = JSON.stringify(newState);
+        setCurrentUser(newState);
+      } else {
+        PostService.bookmarkPost(post._id);
+        const newState = {
+          ...currentUser,
+          user: {
+            ...currentUser.user,
+            bookmarks: currentUser.user.bookmarks.concat(post._id),
+          },
+        };
+        localStorage.user = JSON.stringify(newState);
+        setCurrentUser(newState);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFollow = () => {
+    try {
+      if (currentUser.user.followings.includes(post.userId)) {
+        UserService.unfollow(user._id);
+        const newState = {
+          ...currentUser,
+          user: {
+            ...currentUser.user,
+            followings: currentUser.user.followings.filter(
+              (data) => data !== user._id
+            ),
+          },
+        };
+        localStorage.user = JSON.stringify(newState);
+        setCurrentUser(newState);
+      } else {
+        UserService.follow(user._id);
+        const newState = {
+          ...currentUser,
+          user: {
+            ...currentUser.user,
+            followings: currentUser.user.followings.concat(user._id),
+          },
+        };
+        localStorage.user = JSON.stringify(newState);
+        setCurrentUser(newState);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
-          <Link className="postTopLeft" to={`/profile/${user.username}`}>
+          <div className="postTopLeft">
             <img
+              onClick={() => {
+                navigate(`/profile/${user.username}`);
+              }}
               src={user.profilePicture || "/assets/person/noAvatar.jpg"}
               alt=""
             />
-            <span className="postUserName">{user.username}</span>
+            <span
+              onClick={() => {
+                navigate(`/profile/${user.username}`);
+              }}
+              className="postUserName"
+            >
+              {user.username}
+            </span>
             <span className="postDate">{format(post.createdAt)}</span>
-          </Link>
-          <div className="postTopRight">
-            <MoreVert />
+          </div>
+          <div
+            onClick={() => {
+              setIsActive({ ...isActive, more: !isActive.more });
+            }}
+            className="postTopRight"
+            ref={hideMore}
+          >
+            <MdMoreVert className="dropbtn" />
+            <ul
+              style={isActive.more ? { display: "block" } : { display: "none" }}
+              className="dropdown-content"
+            >
+              {currentUser.user._id === post.userId && <li>Delete Post</li>}
+              {currentUser.user._id !== post.userId &&
+                (currentUser.user.followings.includes(post.userId) ? (
+                  <li onClick={handleFollow}>Unfollow This User</li>
+                ) : (
+                  <li onClick={handleFollow}>Follow This User</li>
+                ))}
+              {currentUser.user.bookmarks.includes(post._id) ? (
+                <li onClick={bookmarkHandler}>Delete From Bookmarks</li>
+              ) : (
+                <li onClick={bookmarkHandler}>Add To Bookmarks</li>
+              )}
+            </ul>
           </div>
         </div>
         <div className="postCenter">
           <span className="postText">{post.desc}</span>
-          <img src={post.img} alt="" />
+          {post.img && (
+            <img src={"http://localhost:8800/posts/" + post.img} alt="" />
+          )}
         </div>
 
         <div className="postBottom">
-          <div className="iconContainer">
-            <ChatBubbleOutline className="icon" />
+          <div
+            onClick={() => {
+              setIsActive({
+                ...isActive,
+                comment: !isActive.comment,
+                repost: false,
+              });
+            }}
+            style={isActive.comment ? { color: "cornflowerblue" } : {}}
+            className="iconContainer"
+            ref={hideComment}
+          >
+            <MdChatBubbleOutline className="icon" />
             <span>3</span>
           </div>
-          <div className="iconContainer">
-            <Repeat className="icon" />
+          <div
+            onClick={() => {
+              setIsActive({
+                ...isActive,
+                repost: !isActive.repost,
+                comment: false,
+              });
+            }}
+            style={isActive.repost ? { color: "limegreen" } : {}}
+            className="iconContainer"
+            ref={hideRepost}
+          >
+            <MdRepeat className="icon dropbtn" />
             <span>5</span>
           </div>
           <div onClick={likeHandler} className="iconContainer">
             {isLiked ? (
-              <Favorite htmlColor="crimson" className="icon" />
+              <MdFavorite style={{ color: "crimson" }} className="icon" />
             ) : (
-              <FavoriteBorder className="icon" />
+              <MdFavoriteBorder className="icon" />
             )}
 
             <span>{like}</span>
           </div>
           <div className="iconContainer">
-            <Share className="icon" />
+            <MdShare className="icon" />
+          </div>
+        </div>
+        <div
+          style={
+            isActive.comment || isActive.repost
+              ? { display: "block" }
+              : { display: "none" }
+          }
+          className="PostHidden"
+          ref={hideCommentInput}
+        >
+          <div className="inputSection">
+            <img
+              src={user.profilePicture || "/assets/person/noAvatar.jpg"}
+              alt=""
+            />
+            <input
+              type="text"
+              placeholder={isActive.repost ? "Quote" : "Comment"}
+              required
+            />
+          </div>
+          <div className="sendSection">
+            <button
+              style={
+                isActive.repost
+                  ? { backgroundColor: "limegreen" }
+                  : { backgroundColor: "cornflowerblue" }
+              }
+            >
+              {isActive.repost ? "Repost" : "Send"}
+            </button>
           </div>
         </div>
       </div>

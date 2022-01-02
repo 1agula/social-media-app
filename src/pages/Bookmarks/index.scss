@@ -1,0 +1,32 @@
+.bodyContainer {
+  display: flex;
+  justify-content: center;
+  .homeContainer {
+    display: flex;
+    padding: 20px 20px 0 20px;
+    width: 1000px;
+    .goBack {
+      display: flex;
+      align-items: center;
+      .arrowBack {
+        font-size: 30px;
+        margin-right: 20px;
+        color: slateblue;
+        &:hover {
+          background-color: slateblue;
+          color: white;
+          border-radius: 50%;
+        }
+      }
+      span {
+        font-weight: 500;
+        font-size: 20px;
+        color: slateblue;
+      }
+    }
+    .postContainer {
+      flex: 8;
+      padding: 0 20px;
+    }
+  }
+}

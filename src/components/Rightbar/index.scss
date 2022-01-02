@@ -1,11 +1,11 @@
 .rightbar {
-  flex: 3;
+  flex: 2;
   height: calc(100vh - 50px);
-  position: sticky;
   top: 70px;
   overflow: scroll;
   direction: rtl;
   .rightbarWrapper {
+    position: fixed;
     direction: ltr;
     .rightbarTitle {
       margin-bottom: 15px;

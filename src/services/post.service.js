@@ -1,24 +1,21 @@
 import axios from "axios";
 const API_URL = "http://192.168.0.8:8080/api/course";
 
-let token;
-let _id;
-try {
-  if (localStorage.getItem("user")) {
-    token = JSON.parse(localStorage.getItem("user")).token;
-    _id = JSON.parse(localStorage.getItem("user")).user._id;
-  } else {
-    token = "";
-  }
-} catch (error) {
-  console.log(error);
-}
-
 class CourseService {
-  post(title, description, price) {
+  post(userId, desc, img) {
+    let token;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
     return axios.post(
-      API_URL,
-      { title, description, price },
+      "/post",
+      { desc, userId, img },
       {
         headers: {
           Authorization: token,
@@ -26,20 +23,73 @@ class CourseService {
       }
     );
   }
+  uploadImage(data) {
+    return axios.post("/upload", data);
+  }
 
   getTimelinePosts() {
+    let token;
+    let _id;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+        _id = JSON.parse(localStorage.getItem("user")).user._id;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
     return axios.get("/post/timeline/" + _id, {
       headers: { Authorization: token },
     });
   }
 
+  getOnePost(postId) {
+    let token;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return axios.get("/post/" + postId, {
+      headers: { Authorization: token },
+    });
+  }
+
   getAllPosts(userId) {
+    let token;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
     return axios.get("/post/profile/" + userId, {
       headers: { Authorization: token },
     });
   }
 
   likePost(postId) {
+    let token;
+    let _id;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+        _id = JSON.parse(localStorage.getItem("user")).user._id;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
     return axios.put(
       "/post/" + postId + "/like",
       { userId: _id },
@@ -51,14 +101,44 @@ class CourseService {
     );
   }
 
-  getCourseByName(name) {
-    return axios.get(API_URL + "/findbyname/" + name, {
-      headers: { Authorization: token },
-    });
+  bookmarkPost(postId) {
+    let token;
+    let _id;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+        _id = JSON.parse(localStorage.getItem("user")).user._id;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return axios.put(
+      "/post/" + postId + "/bookmark",
+      { userId: _id },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
   }
 
-  get(_id) {
-    return axios.get(API_URL + "/instructor/" + _id, {
+  getBookmarks() {
+    let token;
+    let _id;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+        _id = JSON.parse(localStorage.getItem("user")).user._id;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return axios.get("/post/bookmarks/" + _id, {
       headers: { Authorization: token },
     });
   }

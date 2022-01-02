@@ -9,26 +9,22 @@ import { Users } from "../../dummyData";
 import UserService from "../../services/user.service";
 
 export default function Profile() {
-  const [user, setUser] = useState({});
   const params = useParams;
   const { username } = params();
+  const [user, setUser] = useState({});
 
   useEffect(() => {
-    const fetchUser = async () => {
-      UserService.getUserName(username).then((response) => {
-        setUser(response.data);
-      });
-    };
-    fetchUser();
+    UserService.getUserName(username).then((response) => {
+      setUser(response.data);
+    });
   }, [username]);
-
   return (
     <>
       <Topbar />
       <div className="bodyContainer">
         <div className="profileContainer">
           <Sidebar />
-          <ProfilePage user={user} />
+          {user._id && <ProfilePage user={user} />}
           <Rightbar users={Users} />
         </div>
       </div>

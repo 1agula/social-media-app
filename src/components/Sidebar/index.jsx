@@ -3,22 +3,24 @@ import { CurrentUserContext } from "../../App";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 import {
-  Home,
-  Notifications,
-  Bookmark,
-  Chat,
-  Group,
-  ExitToApp,
-  Person,
-} from "@material-ui/icons";
+  MdHome,
+  MdNotifications,
+  MdBookmark,
+  MdChat,
+  MdGroup,
+  MdExitToApp,
+  MdPerson,
+  MdSearch,
+} from "react-icons/md";
 import AuthService from "../../services/auth.service";
 
 export default function Sidebar() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const navigate = useNavigate();
-  const handleLogout = async () => {
-    await AuthService.logout();
+  const handleLogout = () => {
     window.alert("Logout Successfully, now you are redirect to the homepage.");
+    AuthService.logout();
+    setCurrentUser(undefined);
     navigate("/login");
   };
   const handleProfile = () => {
@@ -35,32 +37,46 @@ export default function Sidebar() {
               navigate("/home");
             }}
           >
-            <Home className="sidebarIcon" />
+            <MdHome className="sidebarIcon" />
             <span className="sidebarListItemText">Home</span>
           </li>
           <li className="sidebarListItem">
-            <Chat className="sidebarIcon" />
+            <MdSearch className="sidebarIcon" />
+            <span className="sidebarListItemText">Search</span>
+          </li>
+          <li className="sidebarListItem">
+            <MdChat className="sidebarIcon" />
             <span className="sidebarListItemText">Chats</span>
           </li>
-          <li className="sidebarListItem">
-            <Group className="sidebarIcon" />
-            <span className="sidebarListItemText">Followers</span>
+          <li
+            onClick={() => {
+              navigate("/friends");
+            }}
+            className="sidebarListItem"
+          >
+            <MdGroup className="sidebarIcon" />
+            <span className="sidebarListItemText">Friends</span>
           </li>
           <li className="sidebarListItem">
-            <Notifications className="sidebarIcon" />
+            <MdNotifications className="sidebarIcon" />
             <span className="sidebarListItemText">Notification</span>
           </li>
-          <li className="sidebarListItem">
-            <Bookmark className="sidebarIcon" />
+          <li
+            onClick={() => {
+              navigate("/bookmarks");
+            }}
+            className="sidebarListItem"
+          >
+            <MdBookmark className="sidebarIcon" />
             <span className="sidebarListItemText">Bookmarks</span>
           </li>
 
           <li className="sidebarListItem" onClick={handleProfile}>
-            <Person className="sidebarIcon" />
+            <MdPerson className="sidebarIcon" />
             <span className="sidebarListItemText">Profile</span>
           </li>
           <li className="sidebarListItem" onClick={handleLogout}>
-            <ExitToApp className="sidebarIcon" />
+            <MdExitToApp className="sidebarIcon" />
             <span className="sidebarListItemText">Logout</span>
           </li>
         </ul>

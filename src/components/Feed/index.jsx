@@ -18,7 +18,7 @@ export default function Feed() {
   });
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const fetchPost = () => {
       PostService.getTimelinePosts().then((response) => {
         setPosts(response.data);
       });
@@ -28,7 +28,7 @@ export default function Feed() {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        <Share />
+        <Share setPosts={setPosts} />
         {posts.map((post) => {
           return <Post key={post._id} post={post} />;
         })}

@@ -9,20 +9,21 @@ export default function Register() {
   const email = useRef();
   const password = useRef();
   const handleClick = () => {
-    AuthService.register(
-      username.current.value,
-      email.current.value,
-      password.current.value
-    )
-      .then(() => {
-        window.alert(
-          "Registration succeeds. You are now redirect to the login page."
-        );
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
+    email.current.value &&
+      AuthService.register(
+        username.current.value,
+        email.current.value,
+        password.current.value
+      )
+        .then(() => {
+          window.alert(
+            "Registration succeeds. You are now redirect to the login page."
+          );
+          navigate("/login");
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
   };
 
   return (
@@ -66,7 +67,14 @@ export default function Register() {
             <button onClick={handleClick} className="loginButton">
               Sign Up
             </button>
-            <button className="loginRegisterButton">Log into Account</button>
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+              className="loginRegisterButton"
+            >
+              Log into Account
+            </button>
           </form>
         </div>
       </div>

@@ -1,31 +1,81 @@
+import { useContext, useRef, useState } from "react";
+import { CurrentUserContext } from "../../App";
+import PostService from "../../services/post.service";
+import { useNavigate } from "react-router-dom";
 import "./index.scss";
-import { PermMedia, Label, Room, EmojiEmotions } from "@material-ui/icons";
+import { MdAddPhotoAlternate, MdTag, MdAddLocationAlt } from "react-icons/md";
 
-export default function Share() {
+export default function Share({ setPosts }) {
+  const desc = useRef();
+  const [file, setFile] = useState(null);
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const navigate = useNavigate();
+  const { profilePicture, _id } = currentUser.user;
+  const handleProfile = () => {
+    const { username } = currentUser.user;
+    navigate(`/profile/${username}`);
+  };
+  const handleShare = () => {
+    if (desc.current.value) {
+      let imgName;
+      if (file) {
+        const formdata = new FormData();
+        const getExtension = (str) => str.slice(str.lastIndexOf("."));
+        const extString = getExtension(file.name);
+        const fileName =
+          "post-" + currentUser.user._id + "-" + Date.now() + extString;
+        formdata.append("name", fileName);
+        formdata.append("post", file);
+        imgName = fileName;
+        PostService.uploadImage(formdata);
+      }
+
+      PostService.post(_id, desc.current.value, imgName);
+      desc.current.value = "";
+      const fetchPost = () => {
+        PostService.getTimelinePosts().then((response) => {
+          setPosts(response.data);
+        });
+      };
+      fetchPost();
+    } else {
+      return;
+    }
+  };
+
   return (
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
-          <img src="/assets/person/1.jpg" alt="pfp" />
-          <input placeholder="What's in your mind?" />
+          <img
+            onClick={handleProfile}
+            src={profilePicture || "/assets/person/noAvatar.jpg"}
+            alt=""
+          />
+          <textarea ref={desc} placeholder="What's in your mind?" />
+          <p>{file && file.name}</p>
         </div>
         <hr className="shareHr" />
         <div className="shareBottom">
-          <div className="shareOptions">
-            <div className="shareOption">
-              <PermMedia htmlColor="tomato" className="shareIcon" />
-              <span className="shareOptionText">Image</span>
-            </div>
-            <div className="shareOption">
-              <Label htmlColor="steelblue" className="shareIcon" />
-              <span className="shareOptionText">Tag</span>
-            </div>
-            <div className="shareOption">
-              <Room htmlColor="yellowgreen" className="shareIcon" />
-              <span className="shareOptionText">Location</span>
-            </div>
+          <div className="shareIcons">
+            <label htmlFor="file">
+              <MdAddPhotoAlternate />
+              <input
+                style={{ display: "none" }}
+                type="file"
+                id="file"
+                accept=".jpg,.png,.jpeg"
+                onChange={(e) => setFile(e.target.files[0])}
+              />
+            </label>
+            <label htmlFor="">
+              <MdTag />
+            </label>
+            <label htmlFor="">
+              <MdAddLocationAlt />
+            </label>
           </div>
-          <button>Share</button>
+          <button onClick={handleShare}>Share</button>
         </div>
       </div>
     </div>
