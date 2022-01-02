@@ -57,6 +57,21 @@ router.put("/:id/like", async (req, res) => {
     res.status(500).json(err);
   }
 });
+//add to bookmarks
+router.put("/:id/bookmark", async (req, res) => {
+  try {
+    const user = await User.findById(req.body.userId);
+    if (!user.bookmarks.includes(req.params.id)) {
+      await user.updateOne({ $push: { bookmarks: req.params.id } });
+      res.status(200).json("successfully added to bookmarks.");
+    } else {
+      await user.updateOne({ $pull: { bookmarks: req.params.id } });
+      res.status(200).json("The bookmark has been deleted.");
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 //get a post
 router.get("/:id", async (req, res) => {
   try {
@@ -77,6 +92,21 @@ router.get("/timeline/:userId", async (req, res) => {
       })
     );
     res.status(200).json(userPosts.concat(...friendPosts));
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//get Bookmarks
+router.get("/bookmarks/:userId", async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.params.userId);
+    const bookmarks = await Promise.all(
+      currentUser.bookmarks.map((postId) => {
+        return Post.findById(postId);
+      })
+    );
+    res.status(200).json(bookmarks);
   } catch (err) {
     res.status(500).json(err);
   }

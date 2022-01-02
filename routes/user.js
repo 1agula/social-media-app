@@ -52,6 +52,47 @@ router.get("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+//get followings
+router.get("/followings/:userId", async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.params.userId);
+    const followings = await Promise.all(
+      currentUser.followings.map((id) => {
+        return User.findById(id);
+      })
+    );
+    let followingsList = [];
+    followings.map((following) => {
+      const { _id, username, profilePicture } = following;
+      followingsList.push({ _id, username, profilePicture });
+    });
+    res.status(200).json(followingsList);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//get followers
+router.get("/followers/:userId", async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.params.userId);
+    const followers = await Promise.all(
+      currentUser.followers.map((id) => {
+        return User.findById(id);
+      })
+    );
+    let followersList = [];
+    followers.map((d) => {
+      const { _id, username, profilePicture } = d;
+      followersList.push({ _id, username, profilePicture });
+    });
+    res.status(200).json(followersList);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 //follow
 router.put("/:id/follow", async (req, res) => {
   if (req.body.userId !== req.params.id || req.body.isAdmin) {

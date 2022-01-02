@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    bookmarks: {
+      type: Array,
+      default: [],
+    },
     isAdmin: {
       type: Boolean,
       default: false,
@@ -43,18 +47,11 @@ const UserSchema = new mongoose.Schema(
     desc: {
       type: String,
       maxlength: 50,
+      default: "",
     },
     city: {
       type: String,
       maxlength: 50,
-    },
-    from: {
-      type: String,
-      maxlength: 50,
-    },
-    relationship: {
-      type: Number,
-      enum: [1, 2, 3],
     },
   },
   { timestamps: true }
