@@ -78,24 +78,37 @@ class UserService {
       }
     );
   }
-  getFollowers() {
+  getFollowers(userId) {
     let token;
-    let _id;
     try {
       if (localStorage.getItem("user")) {
         token = JSON.parse(localStorage.getItem("user")).token;
-        _id = JSON.parse(localStorage.getItem("user")).user._id;
       } else {
         token = "";
       }
     } catch (error) {
       console.log(error);
     }
-    return axios.get("/user/followers/" + _id, {
+    return axios.get("/user/followers/" + userId, {
       headers: { Authorization: token },
     });
   }
-  getFollowings() {
+  getFollowings(userId) {
+    let token;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return axios.get("/user/followings/" + userId, {
+      headers: { Authorization: token },
+    });
+  }
+  updateUser(user) {
     let token;
     let _id;
     try {
@@ -108,7 +121,7 @@ class UserService {
     } catch (error) {
       console.log(error);
     }
-    return axios.get("/user/followings/" + _id, {
+    return axios.put("/user/" + _id, user, {
       headers: { Authorization: token },
     });
   }

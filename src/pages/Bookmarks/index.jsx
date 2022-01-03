@@ -13,6 +13,16 @@ import { useNavigate } from "react-router-dom";
 export default function Bookmarks() {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   let [posts, setPosts] = useState([]);
+  posts.sort(function (a, b) {
+    const keyA = new Date(a.createdAt);
+    const keyB = new Date(b.createdAt);
+    // nulls sort before anything else
+    if (a.length === 0 || b.length === 0) return -1;
+    // Compare the 2 dates
+    if (keyA > keyB) return -1;
+    if (keyA < keyB) return 1;
+    return 0;
+  });
   useEffect(() => {
     const fetchPost = () => {
       PostService.getBookmarks().then((response) => {

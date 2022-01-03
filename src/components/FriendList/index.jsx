@@ -4,37 +4,38 @@ import { useNavigate } from "react-router-dom";
 import "./index.scss";
 import UserService from "../../services/user.service";
 
-export default function FriendList({ following }) {
+export default function FriendList({ friends }) {
+  const { _id, username, profilePicture, desc } = friends;
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const [followed, setFollowed] = useState(
-    currentUser.user.followings.includes(following._id)
+    currentUser.user.followings.includes(_id)
   );
   useEffect(() => {
-    setFollowed(currentUser.user.followings.includes(following._id));
-  }, [following, currentUser]);
+    setFollowed(currentUser.user.followings.includes(_id));
+  }, [_id, currentUser]);
   const handleFollow = () => {
     try {
       if (followed) {
-        UserService.unfollow(following._id);
+        UserService.unfollow(_id);
         const newState = {
           ...currentUser,
           user: {
             ...currentUser.user,
             followings: currentUser.user.followings.filter(
-              (data) => data !== following._id
+              (data) => data !== _id
             ),
           },
         };
         localStorage.user = JSON.stringify(newState);
         setCurrentUser(newState);
       } else {
-        UserService.follow(following._id);
+        UserService.follow(_id);
         const newState = {
           ...currentUser,
           user: {
             ...currentUser.user,
-            followings: currentUser.user.followings.concat(following._id),
+            followings: currentUser.user.followings.concat(_id),
           },
         };
         localStorage.user = JSON.stringify(newState);
@@ -51,9 +52,13 @@ export default function FriendList({ following }) {
           <div className="friendImg">
             <img
               onClick={() => {
-                navigate(`/profile/${following.username}`);
+                navigate(`/profile/${username}`);
               }}
-              src={following.profilePicture || "/assets/person/noAvatar.jpg"}
+              src={
+                (profilePicture &&
+                  "http://localhost:8800/posts/" + profilePicture) ||
+                "/assets/person/noAvatar.jpg"
+              }
               alt=""
             />
           </div>
@@ -61,21 +66,17 @@ export default function FriendList({ following }) {
             <div className="friendTop">
               <span
                 onClick={() => {
-                  navigate(`/profile/${following.username}`);
+                  navigate(`/profile/${username}`);
                 }}
               >
-                {following.username}
+                {username}
               </span>
               <button onClick={handleFollow}>
                 {followed ? "Unfollow" : "Follow"}
               </button>
             </div>
             <div className="friendBottom">
-              <span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Inventore facere eum suscipit tempora saepe blanditiis neque
-                dicta
-              </span>
+              <span>{desc}</span>
             </div>
           </div>
         </div>

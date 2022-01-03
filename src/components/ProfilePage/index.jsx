@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { CurrentUserContext } from "../../App";
 import { useParams, useNavigate } from "react-router-dom";
 import "./index.scss";
@@ -7,8 +7,9 @@ import { MdArrowBack } from "react-icons/md";
 import UserService from "../../services/user.service";
 import PostService from "../../services/post.service";
 
-export default function ProfilePage({ user }) {
+export default function ProfilePage({ user, setUser }) {
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const [edit, setEdit] = useState(false);
   const params = useParams;
   const { username } = params();
   const navigate = useNavigate();
@@ -57,6 +58,39 @@ export default function ProfilePage({ user }) {
       console.log(err);
     }
   };
+
+  const userName = useRef();
+  const desc = useRef();
+  const [file, setFile] = useState(null);
+  const handleEdit = () => {
+    setEdit(!edit);
+  };
+  const handleSubmit = () => {
+    let imgName = user.profilePicture;
+    if (file) {
+      const formdata = new FormData();
+      const getExtension = (str) => str.slice(str.lastIndexOf("."));
+      const extString = getExtension(file.name);
+      const fileName =
+        "avatar-" + currentUser.user._id + "-" + Date.now() + extString;
+      formdata.append("name", fileName);
+      formdata.append("post", file);
+      imgName = fileName;
+      PostService.uploadImage(formdata);
+    }
+    setEdit(!edit);
+    UserService.updateUser({
+      ...currentUser.user,
+      username: userName.current.value,
+      desc: desc.current.value,
+      profilePicture: imgName,
+    });
+    setUser({
+      ...user,
+      username: userName.current.value,
+      desc: desc.current.value,
+    });
+  };
   return (
     <div className="profilePage">
       <div className="profilePageWrapper">
@@ -71,32 +105,74 @@ export default function ProfilePage({ user }) {
         </div>
         <div className="profile">
           <div className="profileImg">
-            <img
-              src={user.profilePicture || "/assets/person/noAvatar.jpg"}
-              alt=""
-            />
+            <label htmlFor="file">
+              <img
+                src={
+                  (user.profilePicture &&
+                    "http://localhost:8800/posts/" + user.profilePicture) ||
+                  "/assets/person/noAvatar.jpg"
+                }
+                alt=""
+              />
+              {edit && (
+                <input
+                  style={{ display: "none" }}
+                  type="file"
+                  id="file"
+                  accept=".jpg,.png,.jpeg"
+                  onChange={(e) => setFile(e.target.files[0])}
+                />
+              )}
+            </label>
           </div>
           <div className="profileDetail">
             <div className="profileTop">
-              <span>{user.username}</span>
+              {edit ? (
+                <input
+                  ref={userName}
+                  type="text"
+                  defaultValue={user.username}
+                />
+              ) : (
+                <span>{user.username}</span>
+              )}
+
               {username !== currentUser.user.username ? (
                 <button onClick={handleFollow}>
                   {followed ? "Unfollow" : "Follow"}
                 </button>
+              ) : edit ? (
+                <div>
+                  <button onClick={handleEdit}>Cancel</button>
+                  &nbsp;&nbsp;&nbsp;
+                  <button onClick={handleSubmit}>Submit</button>
+                </div>
               ) : (
-                <button>Edit Profile</button>
+                <button onClick={handleEdit}>Edit Profile</button>
               )}
             </div>
             <div className="profileCenter">
-              <span>{`${user.followers.length}`} Followers</span>
-              <span>{`${user.followings.length}`} Following</span>
+              <span
+                onClick={() => {
+                  user.username && navigate("/follower/" + user.username);
+                }}
+              >
+                {`${user.followers.length}`} Followers
+              </span>
+              <span
+                onClick={() => {
+                  user.username && navigate("/following/" + user.username);
+                }}
+              >
+                {`${user.followings.length}`} Following
+              </span>
             </div>
             <div className="profileBottom">
-              <span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Inventore facere eum suscipit tempora saepe blanditiis neque
-                dicta
-              </span>
+              {edit ? (
+                <textarea ref={desc} type="text" defaultValue={user.desc} />
+              ) : (
+                <span>{user.desc}</span>
+              )}
             </div>
           </div>
         </div>

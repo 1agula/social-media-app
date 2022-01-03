@@ -1,9 +1,15 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import { CurrentUserContext } from "../../App";
 import PostService from "../../services/post.service";
+import UserService from "../../services/user.service";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
-import { MdAddPhotoAlternate, MdTag, MdAddLocationAlt } from "react-icons/md";
+import {
+  MdAddPhotoAlternate,
+  MdTag,
+  MdAddLocationAlt,
+  MdCancel,
+} from "react-icons/md";
 
 export default function Share({ setPosts }) {
   const desc = useRef();
@@ -32,6 +38,7 @@ export default function Share({ setPosts }) {
 
       PostService.post(_id, desc.current.value, imgName);
       desc.current.value = "";
+      setFile(null);
       const fetchPost = () => {
         PostService.getTimelinePosts().then((response) => {
           setPosts(response.data);
@@ -43,18 +50,43 @@ export default function Share({ setPosts }) {
     }
   };
 
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      UserService.getUser(_id).then((response) => {
+        setUser(response.data);
+      });
+    };
+    fetchUser();
+  }, [_id]);
+
   return (
     <div className="share">
       <div className="shareWrapper">
         <div className="shareTop">
           <img
             onClick={handleProfile}
-            src={profilePicture || "/assets/person/noAvatar.jpg"}
+            src={
+              (user.profilePicture &&
+                "http://localhost:8800/posts/" + user.profilePicture) ||
+              "/assets/person/noAvatar.jpg"
+            }
             alt=""
           />
           <textarea ref={desc} placeholder="What's in your mind?" />
-          <p>{file && file.name}</p>
         </div>
+        {file && (
+          <div className="shareImgContainer">
+            <img className="shareImg" src={URL.createObjectURL(file)} alt="" />
+            <MdCancel
+              className="shareCancelImg"
+              onClick={() => {
+                setFile(null);
+              }}
+            />
+          </div>
+        )}
         <hr className="shareHr" />
         <div className="shareBottom">
           <div className="shareIcons">

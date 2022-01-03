@@ -61,6 +61,24 @@ class CourseService {
     });
   }
 
+  deletePost(postId) {
+    let token;
+    try {
+      if (localStorage.getItem("user")) {
+        token = JSON.parse(localStorage.getItem("user")).token;
+      } else {
+        token = "";
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return axios.delete("/post/" + postId, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  }
+
   getAllPosts(userId) {
     let token;
     try {

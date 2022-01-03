@@ -21,7 +21,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile/:username" element={<Profile />} />
-          <Route path="/friends" element={<Friends />}></Route>
+          <Route path="/:mate/:username" element={<Friends />}></Route>
+          <Route path="/:mate/:username" element={<Friends />}></Route>
           <Route path="/bookmarks" element={<Bookmarks />}></Route>
         </Routes>
       </Provider>

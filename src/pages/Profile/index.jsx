@@ -24,7 +24,7 @@ export default function Profile() {
       <div className="bodyContainer">
         <div className="profileContainer">
           <Sidebar />
-          {user._id && <ProfilePage user={user} />}
+          {user._id && <ProfilePage user={user} setUser={setUser} />}
           <Rightbar users={Users} />
         </div>
       </div>

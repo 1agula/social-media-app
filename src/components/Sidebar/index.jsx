@@ -48,15 +48,6 @@ export default function Sidebar() {
             <MdChat className="sidebarIcon" />
             <span className="sidebarListItemText">Chats</span>
           </li>
-          <li
-            onClick={() => {
-              navigate("/friends");
-            }}
-            className="sidebarListItem"
-          >
-            <MdGroup className="sidebarIcon" />
-            <span className="sidebarListItemText">Friends</span>
-          </li>
           <li className="sidebarListItem">
             <MdNotifications className="sidebarIcon" />
             <span className="sidebarListItemText">Notification</span>

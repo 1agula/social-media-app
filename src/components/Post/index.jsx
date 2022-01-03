@@ -74,6 +74,16 @@ export default function Post({ post }) {
     });
   };
 
+  const thisPost = useRef();
+  const handleDelete = () => {
+    try {
+      thisPost.current.style.display = "none";
+      PostService.deletePost(post._id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const bookmarkHandler = () => {
     try {
       if (currentUser.user.bookmarks.includes(post._id)) {
@@ -138,7 +148,7 @@ export default function Post({ post }) {
     }
   };
   return (
-    <div className="post">
+    <div ref={thisPost} className="post">
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
@@ -146,7 +156,11 @@ export default function Post({ post }) {
               onClick={() => {
                 navigate(`/profile/${user.username}`);
               }}
-              src={user.profilePicture || "/assets/person/noAvatar.jpg"}
+              src={
+                (user.profilePicture &&
+                  "http://localhost:8800/posts/" + user.profilePicture) ||
+                "/assets/person/noAvatar.jpg"
+              }
               alt=""
             />
             <span
@@ -171,7 +185,9 @@ export default function Post({ post }) {
               style={isActive.more ? { display: "block" } : { display: "none" }}
               className="dropdown-content"
             >
-              {currentUser.user._id === post.userId && <li>Delete Post</li>}
+              {currentUser.user._id === post.userId && (
+                <li onClick={handleDelete}>Delete Post</li>
+              )}
               {currentUser.user._id !== post.userId &&
                 (currentUser.user.followings.includes(post.userId) ? (
                   <li onClick={handleFollow}>Unfollow This User</li>
@@ -248,7 +264,11 @@ export default function Post({ post }) {
         >
           <div className="inputSection">
             <img
-              src={user.profilePicture || "/assets/person/noAvatar.jpg"}
+              src={
+                (user.profilePicture &&
+                  "http://localhost:8800/posts/" + user.profilePicture) ||
+                "/assets/person/noAvatar.jpg"
+              }
               alt=""
             />
             <input
