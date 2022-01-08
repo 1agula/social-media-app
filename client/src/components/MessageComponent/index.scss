@@ -1,0 +1,116 @@
+.chatComponent {
+  padding: 0 20px;
+  flex: 8;
+  .goBack {
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    .arrowBack {
+      font-size: 30px;
+      margin-right: 20px;
+      color: slateblue;
+      &:hover {
+        background-color: slateblue;
+        color: white;
+        border-radius: 50%;
+      }
+    }
+    span {
+      font-weight: 500;
+      font-size: 20px;
+      color: slateblue;
+    }
+  }
+  .chat {
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    position: relative;
+    .chatWrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: calc(100vh - 190px);
+      padding: 20px 20px 70px 20px;
+      overflow: scroll;
+      .chatTop {
+        .chatContent {
+          &.own {
+            justify-content: end;
+            flex-direction: row-reverse;
+            img {
+              margin-left: 10px;
+              margin-right: 0px;
+            }
+            .chatText {
+              flex-direction: row-reverse;
+              span {
+                background-color: #eeeeee !important;
+                color: black !important;
+              }
+              p {
+                text-align: start !important;
+              }
+            }
+          }
+          display: flex;
+          align-items: flex-start;
+          margin-top: 10px;
+          img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+          }
+          .chatText {
+            display: flex;
+            span {
+              padding: 10px;
+              border-radius: 10px;
+              background-color: #1877f2;
+              color: white;
+              max-width: 300px;
+            }
+            p {
+              text-align: end;
+              font-size: 12px;
+              margin: 5px;
+              color: gray;
+            }
+          }
+        }
+      }
+      .chatBottom {
+        position: absolute;
+        width: calc(100% - 80px);
+        bottom: 0;
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: #fff;
+        input {
+          padding: 0 16px;
+          background-color: lightgray;
+          border: none;
+          border-radius: 5px;
+          width: 100%;
+          height: 29px;
+          margin-right: 10px;
+          &:focus {
+            outline: 1px solid slateblue;
+          }
+        }
+        button {
+          border: none;
+          padding: 7px;
+          border-radius: 5px;
+          background-color: slateblue;
+          cursor: pointer;
+          color: white;
+        }
+      }
+    }
+  }
+}
