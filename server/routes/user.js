@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 //update
 router.put("/:id", async (req, res) => {
-  if (req.body.userId === req.params.id || req.body.isAdmin) {
+  if (req.body._id === req.params.id || req.body.isAdmin) {
     if (req.body.password) {
       try {
         const salt = await bcrypt.genSalt(10);
@@ -64,11 +64,12 @@ router.get("/followings/:userId", async (req, res) => {
     );
     let followingsList = [];
     followings.map((following) => {
-      const { _id, username, profilePicture } = following;
-      followingsList.push({ _id, username, profilePicture });
+      const { _id, username, profilePicture, desc } = following;
+      followingsList.push({ _id, username, profilePicture, desc });
     });
     res.status(200).json(followingsList);
   } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -83,9 +84,9 @@ router.get("/followers/:userId", async (req, res) => {
       })
     );
     let followersList = [];
-    followers.map((d) => {
-      const { _id, username, profilePicture } = d;
-      followersList.push({ _id, username, profilePicture });
+    followers.map((follower) => {
+      const { _id, username, profilePicture, desc } = follower;
+      followersList.push({ _id, username, profilePicture, desc });
     });
     res.status(200).json(followersList);
   } catch (err) {

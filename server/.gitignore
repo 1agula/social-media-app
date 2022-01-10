@@ -1,6 +1,6 @@
 
 gs
-
+public/images/*
 logs
 _.log
 npm-debug.log_

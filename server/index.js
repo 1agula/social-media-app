@@ -10,8 +10,11 @@ const path = require("path");
 const userRoute = require("./routes/user");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/post");
+const conversationRoute = require("./routes/conversations");
+const messageRoute = require("./routes/messages");
 const passport = require("passport");
 require("./config/passport")(passport);
+const cors = require("cors");
 
 mongoose.connect(process.env.MONGO_URL, () => {
   console.log("Connected to MongoDB");
@@ -21,12 +24,13 @@ mongoose.connect(process.env.MONGO_URL, () => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
+app.use(cors());
 app.use(morgan("common"));
-app.use("/posts", express.static(path.join(__dirname, "public/posts")));
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/posts");
+    cb(null, "public/images");
   },
   filename: function (req, file, cb) {
     cb(null, req.body.name);
@@ -34,7 +38,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-app.post("/api/upload", upload.single("post"), (req, res) => {
+app.post("/api/upload", upload.single("images"), (req, res) => {
   try {
     return res.status(200).json("File uploaded successfully.");
   } catch (err) {
@@ -51,6 +55,16 @@ app.use(
   "/api/post",
   passport.authenticate("jwt", { session: false }),
   postRoute
+);
+app.use(
+  "/api/conversation",
+  passport.authenticate("jwt", { session: false }),
+  conversationRoute
+);
+app.use(
+  "/api/message",
+  passport.authenticate("jwt", { session: false }),
+  messageRoute
 );
 
 app.listen(8800, () => {

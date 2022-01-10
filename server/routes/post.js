@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { findOneAndUpdate, findById } = require("../models/Post");
 const Post = require("../models/Post");
 const User = require("../models/User");
+var mongoose = require("mongoose");
 
 //create a post
 router.post("/", async (req, res) => {
@@ -14,16 +14,16 @@ router.post("/", async (req, res) => {
   }
 });
 
-//update a post
-router.put("/:id", async (req, res) => {
+//comment a post
+router.put("/comment/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.userId === req.body.userId) {
-      await post.updateOne({ $set: req.body });
-      res.status(200).json("The post has been updated.");
-    } else {
-      res.status(403).json("You can update only yours post.");
-    }
+    await post.updateOne({
+      $push: {
+        comments: { ...req.body.comments, _id: mongoose.Types.ObjectId() },
+      },
+    });
+    res.status(200).json("The post has been updated.");
   } catch (err) {
     res.status(500).json(err);
   }
@@ -32,14 +32,11 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if (post.userId === req.body.userId) {
-      await post.deleteOne();
-      res.status(200).json("The post has been deleted.");
-    } else {
-      res.status(403).json("You can delete only yours post.");
-    }
+    await post.deleteOne();
+    res.status(200).json("The post has been deleted.");
   } catch (err) {
     res.status(500).json(err);
+    console.log(err);
   }
 });
 //like a post
