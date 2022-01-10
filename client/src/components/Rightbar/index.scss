@@ -1,0 +1,28 @@
+.Contact {
+  flex: 2;
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+      margin-bottom: 20px;
+      span {
+        font-weight: 500;
+      }
+      cursor: pointer;
+      a {
+        display: flex;
+        align-items: center;
+        color: black;
+        text-decoration: none;
+        .icon {
+          font-size: 30px;
+          margin-right: 15px;
+        }
+        &:hover {
+          color: slateblue;
+        }
+      }
+    }
+  }
+}

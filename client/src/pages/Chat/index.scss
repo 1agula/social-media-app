@@ -1,0 +1,9 @@
+.bodyContainer {
+  display: flex;
+  justify-content: center;
+  .chatContainer {
+    width: 1000px;
+    padding: 20px 20px 0 20px;
+    display: flex;
+  }
+}
